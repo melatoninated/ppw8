@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Runewater Grid System</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+
+    body{
+      background:#0d1117;
+      color:white;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar{
+      background:#111827;
+    }
+
+    .navbar-brand{
+      font-weight:bold;
+      letter-spacing:2px;
+      color:#7c3aed !important;
+    }
+
+    .nav-link{
+      color:white !important;
+      transition:0.3s;
+    }
+
+    .nav-link:hover{
+      color:#a78bfa !important;
+    }
+
+    /* ================= SECTION ================= */
+
+    .main-section{
+      padding:60px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:50px;
+    }
+
+    .section-title h1{
+      font-weight:bold;
+      color:#c4b5fd;
+    }
+
+    .section-title p{
+      color:#9ca3af;
+    }
+
+    /* ================= CARD ================= */
+
+    .game-card{
+      background:#161b22;
+      border:none;
+      border-radius:18px;
+
+      overflow:hidden;
+
+      box-shadow:0 10px 20px rgba(0,0,0,0.4);
+
+      transition:0.3s;
+
+      height:100%;
+    }
+
+    .game-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 15px 30px rgba(124,58,237,0.4);
+    }
+
+    .game-card img{
+      height:220px;
+      object-fit:cover;
+    }
+
+    .card-title{
+      color:#ddd6fe;
+      font-weight:bold;
+    }
+
+    .card-text{
+      color:#cbd5e1;
+    }
+
+    .btn-custom{
+      background:#7c3aed;
+      color:white;
+      border:none;
+    }
+
+    .btn-custom:hover{
+      background:#8b5cf6;
+      color:white;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer{
+      background:#111827;
+      padding:20px;
+      margin-top:50px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+
+    <div class="container">
+
+      <a class="navbar-brand" href="#">
+        RUNEWATER
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Gallery</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Community</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- ================= MAIN SECTION ================= -->
+
+  <section class="main-section">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h1>World of Runewater</h1>
+
+        <p>
+          Roguelike naval combat powered by magic and ancient runes
+        </p>
+
+      </div>
+
+      <!-- ================= GRID SYSTEM ================= -->
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-sm-12 col-md-6 col-lg-4">
+
+          <div class="card game-card">
+
+            <img
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop"
+              class="card-img-top"
+              alt="Storm Sea"
+            >
+
+            <div class="card-body">
+
+              <h5 class="card-title">
+                Storm Seas
+              </h5>
+
+              <p class="card-text">
+                Jelajahi lautan badai dan hadapi armada musuh
+                menggunakan rune magic yang mematikan.
+              </p>
+
+              <a href="#" class="btn btn-custom">
+                Explore
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-sm-12 col-md-6 col-lg-4">
+
+          <div class="card game-card">
+
+            <img
+              src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=1200&auto=format&fit=crop"
+              class="card-img-top"
+              alt="Arcane City"
+            >
+
+            <div class="card-body">
+
+              <h5 class="card-title">
+                Arcane Kingdom
+              </h5>
+
+              <p class="card-text">
+                Temui para mage kuno dan buka kemampuan sihir
+                baru untuk memperkuat kapal perangmu.
+              </p>
+
+              <a href="#" class="btn btn-custom">
+                Discover
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-sm-12 col-md-6 col-lg-4">
+
+          <div class="card game-card">
+
+            <img
+              src="https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=1200&auto=format&fit=crop"
+              class="card-img-top"
+              alt="Ancient Ruins"
+            >
+
+            <div class="card-body">
+
+              <h5 class="card-title">
+                Forgotten Ruins
+              </h5>
+
+              <p class="card-text">
+                Cari relic legendaris di reruntuhan kuno
+                untuk membuka kekuatan tersembunyi.
+              </p>
+
+              <a href="#" class="btn btn-custom">
+                Enter
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <p class="text-center mb-0">
+        © 2026 Runewater. All Rights Reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Nilai Mahasiswa</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f4efe8;
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: #ffffff;
+      --ink: #182126;
+      --muted: #5f6b73;
+      --line: rgba(24, 33, 38, 0.08);
+      --accent: #1f4d5c;
+      --accent-soft: #dce8ea;
+      --sand: #eadcc8;
+      --olive: #7b8f62;
+      --shadow: 0 20px 45px rgba(35, 45, 54, 0.10);
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31, 77, 92, 0.14), transparent 28%),
+        radial-gradient(circle at right 20%, rgba(123, 143, 98, 0.16), transparent 24%),
+        linear-gradient(180deg, #f8f4ee 0%, #edf2f4 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .page-shell {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-shell::before,
+    .page-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(12px);
+      z-index: 0;
+    }
+
+    .page-shell::before {
+      width: 220px;
+      height: 220px;
+      top: 48px;
+      right: -90px;
+      background: rgba(31, 77, 92, 0.14);
+    }
+
+    .page-shell::after {
+      width: 160px;
+      height: 160px;
+      bottom: 90px;
+      left: -60px;
+      background: rgba(234, 220, 200, 0.55);
+    }
+
+    .content-layer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card,
+    .stat-card,
+    .table-card {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .hero-band {
+      min-height: 150px;
+      background:
+        linear-gradient(135deg, rgba(24, 33, 38, 0.12), transparent 45%),
+        linear-gradient(120deg, #1f4d5c 0%, #2e6671 52%, #7b8f62 100%);
+    }
+
+    .profile-avatar {
+      width: 104px;
+      height: 104px;
+      object-fit: cover;
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 24px rgba(18, 31, 38, 0.18);
+      margin-top: -52px;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .stat-card {
+      border-radius: 22px;
+      height: 100%;
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(31, 77, 92, 0.12), rgba(234, 220, 200, 0.7));
+      font-size: 1.4rem;
+    }
+
+    .stat-value {
+      font-size: clamp(1.9rem, 2vw, 2.4rem);
+      line-height: 1;
+    }
+
+    .table-card {
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .table thead th {
+      border-bottom-width: 1px;
+      border-color: var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .table tbody td {
+      border-color: var(--line);
+      vertical-align: middle;
+    }
+
+    .course-name {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .subtle-text {
+      color: var(--muted);
+    }
+
+    .btn-detail {
+      border-radius: 999px;
+      border-color: rgba(31, 77, 92, 0.18);
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-detail:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .modal-content {
+      border: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(26, 33, 39, 0.18);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #1f4d5c 0%, #2e6671 100%);
+      color: #fff;
+      border-bottom: 0;
+    }
+
+    .btn-close-white {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .detail-box {
+      padding: 1rem;
+      border-radius: 18px;
+      background: #f6f8f9;
+      border: 1px solid rgba(24, 33, 38, 0.06);
+    }
+
+    @media (max-width: 767.98px) {
+      .profile-avatar {
+        width: 88px;
+        height: 88px;
+        margin-top: -44px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell py-4 py-md-5">
+    <div class="container content-layer">
+      <section class="hero-card mb-4 mb-lg-5">
+        <div class="hero-band"></div>
+        <div class="p-4 p-md-5">
+          <div class="d-flex flex-column flex-md-row align-items-md-end gap-4">
+            <img
+              src="data:image/jpeg;base64,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"
+              alt="Foto profil mahasiswa"
+              class="profile-avatar rounded-4"
+            />
+
+            <div class="flex-grow-1">
+              <p class="eyebrow mb-2">Dashboard Akademik</p>
+              <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-3">
+                <div>
+                  <h1 class="display-6 mb-1">Koko Jiwodo</h1>
+                  <p class="subtle-text mb-0">NIM 2310112048 | Teknologi Rekayasa Perangkat Lunak | Semester 6</p>
+                </div>
+                <span class="badge rounded-pill text-bg-success px-3 py-2">Aktif</span>
+              </div>
+            </div>
+
+            <div class="text-md-end">
+              <p class="eyebrow mb-2">Periode</p>
+              <p class="mb-0 fw-semibold">Genap 2025/2026</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="row g-4 mb-4 mb-lg-5">
+        <div class="col-md-6 col-xl-4">
+          <article class="stat-card p-4">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <p class="eyebrow mb-2">Total SKS</p>
+                <h2 class="stat-value mb-2">144</h2>
+                <p class="subtle-text mb-0">Akumulasi beban studi yang sudah ditempuh.</p>
+              </div>
+              <div class="stat-icon" aria-hidden="true">&#128218;</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <article class="stat-card p-4">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <p class="eyebrow mb-2">IPK</p>
+                <h2 class="stat-value mb-2">3.78</h2>
+                <p class="subtle-text mb-0">Konsisten tinggi dengan dominasi nilai A dan B+.</p>
+              </div>
+              <div class="stat-icon" aria-hidden="true">&#127919;</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <article class="stat-card p-4">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <p class="eyebrow mb-2">Mata Kuliah Lulus</p>
+                <h2 class="stat-value mb-2">42</h2>
+                <p class="subtle-text mb-0">Seluruh mata kuliah inti sudah dinyatakan lulus.</p>
+              </div>
+              <div class="stat-icon" aria-hidden="true">&#9989;</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="table-card">
+        <div class="section-head px-4 py-4 d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-center">
+          <div>
+            <p class="eyebrow mb-2">Rekap Nilai</p>
+            <h2 class="h3 mb-1">Daftar Nilai Mahasiswa</h2>
+            <p class="subtle-text mb-0">Tampilan ringkas hasil studi yang responsif dan mudah dibaca.</p>
+          </div>
+          <span class="badge rounded-pill text-bg-light border px-3 py-2">6 Mata Kuliah Ditampilkan</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th class="px-4 py-3">No</th>
+                <th class="py-3">Mata Kuliah</th>
+                <th class="py-3">SKS</th>
+                <th class="py-3">Nilai Huruf</th>
+                <th class="py-3">Nilai Angka</th>
+                <th class="px-4 py-3 text-end">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="px-4">1</td>
+                <td>
+                  <div class="course-name">Pemrograman Web</div>
+                  <div class="subtle-text small">Pengembangan UI dan interaksi web modern</div>
+                </td>
+                <td>3</td>
+                <td><span class="badge text-bg-success">A</span></td>
+                <td>4.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Pemrograman Web"
+                    data-sks="3 SKS"
+                    data-grade="A"
+                    data-score="4.00"
+                    data-lecturer="Bapak Ardiansyah, M.Kom"
+                    data-schedule="Senin, 09.00 - 11.30"
+                    data-description="Mata kuliah ini membahas struktur HTML, styling dengan CSS, komponen Bootstrap, dan interaksi dasar menggunakan JavaScript."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4">2</td>
+                <td>
+                  <div class="course-name">Struktur Data</div>
+                  <div class="subtle-text small">List, stack, queue, tree, dan graph</div>
+                </td>
+                <td>3</td>
+                <td><span class="badge text-bg-primary">B</span></td>
+                <td>3.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Struktur Data"
+                    data-sks="3 SKS"
+                    data-grade="B"
+                    data-score="3.00"
+                    data-lecturer="Ibu Nabila Putri, S.Kom., M.T."
+                    data-schedule="Selasa, 10.00 - 12.30"
+                    data-description="Fokus pada representasi data, efisiensi algoritma dasar, dan implementasi struktur data untuk pemecahan masalah komputasional."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4">3</td>
+                <td>
+                  <div class="course-name">Basis Data</div>
+                  <div class="subtle-text small">Perancangan relasi dan query SQL</div>
+                </td>
+                <td>3</td>
+                <td><span class="badge text-bg-success">A+</span></td>
+                <td>4.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Basis Data"
+                    data-sks="3 SKS"
+                    data-grade="A+"
+                    data-score="4.00"
+                    data-lecturer="Bapak Rizky Maulana, M.Cs."
+                    data-schedule="Rabu, 13.00 - 15.30"
+                    data-description="Membahas pemodelan ERD, normalisasi, optimasi query, serta praktik pengelolaan basis data relasional untuk aplikasi kampus."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4">4</td>
+                <td>
+                  <div class="course-name">Sistem Operasi</div>
+                  <div class="subtle-text small">Proses, memori, dan penjadwalan CPU</div>
+                </td>
+                <td>4</td>
+                <td><span class="badge text-bg-warning text-dark">C</span></td>
+                <td>2.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Sistem Operasi"
+                    data-sks="4 SKS"
+                    data-grade="C"
+                    data-score="2.00"
+                    data-lecturer="Ibu Sari Wulandari, M.Kom."
+                    data-schedule="Kamis, 08.00 - 11.20"
+                    data-description="Materi meliputi manajemen proses, sinkronisasi, deadlock, virtual memory, dan konsep dasar sistem operasi modern."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4">5</td>
+                <td>
+                  <div class="course-name">Statistika Komputasi</div>
+                  <div class="subtle-text small">Analisis data dan distribusi probabilitas</div>
+                </td>
+                <td>2</td>
+                <td><span class="badge text-bg-danger">D</span></td>
+                <td>1.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Statistika Komputasi"
+                    data-sks="2 SKS"
+                    data-grade="D"
+                    data-score="1.00"
+                    data-lecturer="Bapak Rendra Kusuma, M.Stat."
+                    data-schedule="Jumat, 09.30 - 11.10"
+                    data-description="Topik mencakup statistik deskriptif, inferensi, dan penggunaan pendekatan kuantitatif untuk membaca pola dari data."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4">6</td>
+                <td>
+                  <div class="course-name">Jaringan Komputer</div>
+                  <div class="subtle-text small">Model OSI, routing, dan protokol dasar</div>
+                </td>
+                <td>3</td>
+                <td><span class="badge text-bg-danger">E</span></td>
+                <td>0.00</td>
+                <td class="px-4 text-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-detail"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailModal"
+                    data-course="Jaringan Komputer"
+                    data-sks="3 SKS"
+                    data-grade="E"
+                    data-score="0.00"
+                    data-lecturer="Ibu Dea Maharani, S.T., M.T."
+                    data-schedule="Jumat, 13.00 - 15.30"
+                    data-description="Membahas pengalamatan IP, subnetting, protokol TCP/IP, routing dasar, dan troubleshooting jaringan skala kecil."
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header px-4 py-4">
+          <div>
+            <p class="eyebrow text-white-50 mb-2">Detail Mata Kuliah</p>
+            <h2 class="modal-title h4 mb-0" id="detailModalLabel">Mata Kuliah</h2>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 p-md-5">
+          <div class="detail-grid mb-4">
+            <div class="detail-box">
+              <p class="eyebrow mb-2">SKS</p>
+              <p class="mb-0 fw-semibold" id="modalSks">-</p>
+            </div>
+            <div class="detail-box">
+              <p class="eyebrow mb-2">Nilai Huruf</p>
+              <p class="mb-0 fw-semibold" id="modalGrade">-</p>
+            </div>
+            <div class="detail-box">
+              <p class="eyebrow mb-2">Nilai Angka</p>
+              <p class="mb-0 fw-semibold" id="modalScore">-</p>
+            </div>
+            <div class="detail-box">
+              <p class="eyebrow mb-2">Dosen Pengampu</p>
+              <p class="mb-0 fw-semibold" id="modalLecturer">-</p>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <p class="eyebrow mb-2">Jadwal Kuliah</p>
+            <p class="mb-0" id="modalSchedule">-</p>
+          </div>
+
+          <div>
+            <p class="eyebrow mb-2">Deskripsi</p>
+            <p class="mb-0 subtle-text" id="modalDescription">-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+  <script>
+    const detailModal = document.getElementById("detailModal");
+
+    detailModal.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+
+      document.getElementById("detailModalLabel").textContent = button.getAttribute("data-course");
+      document.getElementById("modalSks").textContent = button.getAttribute("data-sks");
+      document.getElementById("modalGrade").textContent = button.getAttribute("data-grade");
+      document.getElementById("modalScore").textContent = button.getAttribute("data-score");
+      document.getElementById("modalLecturer").textContent = button.getAttribute("data-lecturer");
+      document.getElementById("modalSchedule").textContent = button.getAttribute("data-schedule");
+      document.getElementById("modalDescription").textContent = button.getAttribute("data-description");
+    });
+  </script>
+</body>
+</html>
